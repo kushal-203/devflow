@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html, body { height: 100%; }
+body { @apply bg-slate-50 text-slate-900 antialiased; }
+
+/* Visible focus for keyboard users everywhere */
+:focus-visible { outline: 2px solid var(--color-brand-500); outline-offset: 2px; }
+
+.btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50; }
+.btn-primary { @apply bg-brand-600 text-white hover:bg-brand-700; }
+.btn-secondary { @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-50; }
+.btn-ghost { @apply text-slate-600 hover:bg-slate-100; }
+.input { @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100; }
+.label { @apply mb-1 block text-sm font-medium text-slate-700; }
+.card { @apply rounded-xl border border-slate-200 bg-white shadow-sm; }

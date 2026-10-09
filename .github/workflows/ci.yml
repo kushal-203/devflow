@@ -1,0 +1,171 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+  # Shared by every job that talks to the database / API.
+  DATABASE_URL: postgresql://devflow:devflow@localhost:5432/devflow
+  JWT_SECRET: ci-only-secret-not-used-anywhere-else
+  CORS_ORIGIN: http://localhost:3000
+  BACKEND_URL: http://localhost:4000
+  ENABLE_TEST_ROUTES: 'true'
+  LOGIN_RATE_LIMIT: '1000'
+  AI_PROVIDER: mock
+
+jobs:
+  # ---------------------------------------------------------------------------
+  quality:
+    name: Type-check & build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Generate Prisma client
+        run: npm run db:generate
+      - name: Type-check all workspaces
+        run: npm run typecheck
+      - name: Build backend and frontend
+        run: npm run build
+
+  # ---------------------------------------------------------------------------
+  e2e:
+    name: Migrate, seed & Playwright (API + E2E)
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: devflow
+          POSTGRES_PASSWORD: devflow
+          POSTGRES_DB: devflow
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U devflow"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_ENV: ci
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+      - name: Run database migrations
+        run: npm run db:migrate
+      - name: Check migrations match the Prisma schema (drift check)
+        working-directory: apps/backend
+        run: npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code
+      - name: Seed the database
+        run: npm run db:seed
+
+      - name: Build backend and frontend
+        run: npm run build
+
+      - name: Get Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Install Playwright Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Install Playwright system dependencies
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      # Playwright's webServer starts the built API + web app (see packages/automation/playwright.config.ts)
+      - name: Run Playwright tests (headless)
+        run: npm test
+
+      - name: Publish test summary
+        if: always()
+        run: npm run summary -w packages/automation >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: packages/automation/reports/
+          retention-days: 14
+      - name: Upload traces, screenshots and videos of failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: packages/automation/test-results/
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  performance:
+    name: k6 smoke test (sprint board)
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: devflow
+          POSTGRES_PASSWORD: devflow
+          POSTGRES_DB: devflow
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U devflow"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run db:migrate
+      - run: npm run db:seed
+      - run: npm run build -w apps/backend
+      - name: Start API
+        run: |
+          npm run start -w apps/backend > api.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:4000/api/health && exit 0; sleep 1; done
+          cat api.log; exit 1
+      - uses: grafana/setup-k6-action@v1
+      - name: Run k6 smoke profile (fails the job if a threshold is breached)
+        run: npm run perf:smoke
+      - name: Upload k6 summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-summary
+          path: packages/performance/results/summary.json
+          if-no-files-found: ignore

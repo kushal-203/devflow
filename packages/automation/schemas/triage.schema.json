@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devflow.dev/schemas/triage.json",
+  "title": "AiTriage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["severity", "suggestedPriority", "confidence", "rationale", "labels", "suggestedTestSteps", "suggestedTestCases", "provider", "model", "latencyMs"],
+  "properties": {
+    "severity": { "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"] },
+    "suggestedPriority": { "enum": ["URGENT", "HIGH", "MEDIUM", "LOW"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "rationale": { "type": "string", "minLength": 1 },
+    "labels": { "type": "array", "items": { "type": "string" }, "maxItems": 10 },
+    "suggestedTestSteps": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "maxItems": 15 },
+    "suggestedTestCases": {
+      "type": "array", "minItems": 1, "maxItems": 5,
+      "items": { "type": "object", "additionalProperties": false, "required": ["title", "steps", "expected"],
+        "properties": { "title": { "type": "string" }, "steps": { "type": "array", "items": { "type": "string" }, "minItems": 1 }, "expected": { "type": "string" } } }
+    },
+    "provider": { "enum": ["mock", "claude", "mock-fallback"] },
+    "model": { "type": ["string", "null"] },
+    "latencyMs": { "type": "integer", "minimum": 0 },
+    "fallbackReason": { "type": "string" }
+  }
+}

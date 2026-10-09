@@ -1,0 +1,16 @@
+node_modules/
+.env
+.devflow-db/
+dist/
+.next/
+apps/backend/src/generated/
+packages/automation/test-results/
+packages/automation/.auth/
+packages/performance/results/*.json
+!packages/performance/results/.gitkeep
+*.log
+.DS_Store
+next-env.d.ts
+*.tsbuildinfo
+packages/automation/reports/
+packages/automation/playwright-report/

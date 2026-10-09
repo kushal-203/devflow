@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devflow.dev/schemas/issue.json",
+  "title": "Issue",
+  "description": "Contract for an issue returned by POST/GET/PATCH /api/issues. additionalProperties=false catches accidental data leaks (e.g. password hashes in nested users).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "key", "number", "projectId", "sprintId", "title", "description", "stepsToReproduce", "type", "status", "severity", "priority", "position", "reporter", "assignee", "aiTriage", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "key": { "type": "string", "pattern": "^[A-Z][A-Z0-9]{1,9}-[1-9][0-9]*$" },
+    "number": { "type": "integer", "minimum": 1 },
+    "projectId": { "type": "string", "format": "uuid" },
+    "sprintId": { "type": ["string", "null"], "format": "uuid" },
+    "title": { "type": "string", "minLength": 3, "maxLength": 200 },
+    "description": { "type": "string", "maxLength": 10000 },
+    "stepsToReproduce": { "type": "string", "maxLength": 10000 },
+    "type": { "enum": ["BUG", "STORY", "TASK"] },
+    "status": { "enum": ["BACKLOG", "IN_PROGRESS", "QA", "DONE", "VERIFIED"] },
+    "severity": { "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", null] },
+    "priority": { "enum": ["URGENT", "HIGH", "MEDIUM", "LOW"] },
+    "position": { "type": "number" },
+    "reporter": { "$ref": "#/$defs/person" },
+    "assignee": { "anyOf": [{ "$ref": "#/$defs/person" }, { "type": "null" }] },
+    "aiTriage": { "type": ["object", "null"] },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "allowedTransitions": { "type": "array", "items": { "enum": ["BACKLOG", "IN_PROGRESS", "QA", "DONE", "VERIFIED"] } }
+  },
+  "$defs": {
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "email", "role"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string", "minLength": 1 },
+        "email": { "type": "string", "format": "email" },
+        "role": { "enum": ["ADMIN", "QA", "DEVELOPER", "VIEWER"] }
+      }
+    }
+  }
+}

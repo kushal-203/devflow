@@ -1,0 +1,21 @@
+{
+  "name": "@devflow/automation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:e2e": "playwright test --project=e2e-chromium",
+    "report": "playwright show-report reports/html",
+    "typecheck": "tsc --noEmit",
+    "summary": "node scripts/ci-summary.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.18.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "dotenv": "^17.2.3",
+    "typescript": "^5.9.3"
+  }
+}

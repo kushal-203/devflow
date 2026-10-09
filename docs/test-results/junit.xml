@@ -1,0 +1,190 @@
+<testsuites id="" name="" tests="84" failures="0" skipped="0" errors="0" time="55.110611999999996">
+<testsuite name="api/ai-triage.api.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="api" tests="14" failures="0" skipped="0" time="4.019" errors="0">
+<testcase name="AI triage API › classifies &quot;App crashes when saving a draft and all …&quot; as CRITICAL" classname="api/ai-triage.api.spec.ts" time="0.371">
+</testcase>
+<testcase name="AI triage API › classifies &quot;Customer was charged twice after the pay…&quot; as CRITICAL" classname="api/ai-triage.api.spec.ts" time="0.325">
+</testcase>
+<testcase name="AI triage API › classifies &quot;Export endpoint returns 500 Internal Ser…&quot; as HIGH" classname="api/ai-triage.api.spec.ts" time="0.265">
+</testcase>
+<testcase name="AI triage API › classifies &quot;Users are unable to upload attachments b…&quot; as HIGH" classname="api/ai-triage.api.spec.ts" time="0.26">
+</testcase>
+<testcase name="AI triage API › classifies &quot;The sprint report shows the wrong total …&quot; as MEDIUM" classname="api/ai-triage.api.spec.ts" time="0.259">
+</testcase>
+<testcase name="AI triage API › classifies &quot;Typo on the settings page: &quot;Projcet&quot; sho…&quot; as LOW" classname="api/ai-triage.api.spec.ts" time="0.24">
+</testcase>
+<testcase name="AI triage API › classifies &quot;Please review the onboarding copy for th…&quot; as MEDIUM" classname="api/ai-triage.api.spec.ts" time="0.241">
+</testcase>
+<testcase name="AI triage API › the same input always produces the same result (deterministic mock)" classname="api/ai-triage.api.spec.ts" time="0.255">
+</testcase>
+<testcase name="AI triage API › reported reproduction steps become suggested test steps" classname="api/ai-triage.api.spec.ts" time="0.252">
+</testcase>
+<testcase name="AI triage API › instructions hidden in the bug report do not change the classification" classname="api/ai-triage.api.spec.ts" time="0.282">
+</testcase>
+<testcase name="AI triage API › 400 – description too short" classname="api/ai-triage.api.spec.ts" time="0.243">
+</testcase>
+<testcase name="AI triage API › 400 – description missing" classname="api/ai-triage.api.spec.ts" time="0.267">
+</testcase>
+<testcase name="AI triage API › 400 – unknown field" classname="api/ai-triage.api.spec.ts" time="0.255">
+</testcase>
+<testcase name="AI triage API › POST /issues/:id/triage stores the result, sets severity and creates AI test cases" classname="api/ai-triage.api.spec.ts" time="0.504">
+</testcase>
+</testsuite>
+<testsuite name="api/auth.api.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="api" tests="9" failures="0" skipped="0" time="1.495" errors="0">
+<testcase name="Auth API › valid login returns a JWT, the user (no password hash) and an httpOnly session cookie" classname="api/auth.api.spec.ts" time="0.189">
+</testcase>
+<testcase name="Auth API › email is case-insensitive" classname="api/auth.api.spec.ts" time="0.184">
+</testcase>
+<testcase name="Auth API › wrong password and unknown user get the same 401 (no account enumeration)" classname="api/auth.api.spec.ts" time="0.308">
+</testcase>
+<testcase name="Auth API › protected endpoints › GET /projects without a token → 401" classname="api/auth.api.spec.ts" time="0.095">
+</testcase>
+<testcase name="Auth API › protected endpoints › GET /issues without a token → 401" classname="api/auth.api.spec.ts" time="0.126">
+</testcase>
+<testcase name="Auth API › protected endpoints › POST /issues without a token → 401" classname="api/auth.api.spec.ts" time="0.113">
+</testcase>
+<testcase name="Auth API › protected endpoints › POST /ai/triage without a token → 401" classname="api/auth.api.spec.ts" time="0.106">
+</testcase>
+<testcase name="Auth API › protected endpoints › GET /auth/me without a token → 401" classname="api/auth.api.spec.ts" time="0.125">
+</testcase>
+<testcase name="Auth API › a tampered token is rejected" classname="api/auth.api.spec.ts" time="0.249">
+</testcase>
+</testsuite>
+<testsuite name="api/issues.contract.api.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="api" tests="6" failures="0" skipped="0" time="2.369" errors="0">
+<testcase name="Issue API contract (JSON Schema) › POST /issues with the minimum payload returns 201, Location header and a schema-valid issue with defaults" classname="api/issues.contract.api.spec.ts" time="0.373">
+</testcase>
+<testcase name="Issue API contract (JSON Schema) › POST /issues with every field echoes the values back" classname="api/issues.contract.api.spec.ts" time="0.382">
+</testcase>
+<testcase name="Issue API contract (JSON Schema) › issue keys are sequential per project" classname="api/issues.contract.api.spec.ts" time="0.348">
+</testcase>
+<testcase name="Issue API contract (JSON Schema) › GET /issues/:id, GET /issues and GET /board all honour their contracts" classname="api/issues.contract.api.spec.ts" time="0.383">
+</testcase>
+<testcase name="Issue API contract (JSON Schema) › error responses share one contract (400, 401, 403, 404, 409)" classname="api/issues.contract.api.spec.ts" time="0.494">
+</testcase>
+<testcase name="Issue API contract (JSON Schema) › no response anywhere leaks password hashes" classname="api/issues.contract.api.spec.ts" time="0.389">
+</testcase>
+</testsuite>
+<testsuite name="api/issues.validation.api.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="api" tests="25" failures="0" skipped="0" time="8.575" errors="0">
+<testcase name="POST /issues – payload validation › 400 – missing projectId" classname="api/issues.validation.api.spec.ts" time="0.34">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – missing title" classname="api/issues.validation.api.spec.ts" time="0.359">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – empty body" classname="api/issues.validation.api.spec.ts" time="0.315">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – title too short (2 chars)" classname="api/issues.validation.api.spec.ts" time="0.351">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – title only whitespace" classname="api/issues.validation.api.spec.ts" time="0.32">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – title too long (201 chars)" classname="api/issues.validation.api.spec.ts" time="0.312">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – title is a number" classname="api/issues.validation.api.spec.ts" time="0.328">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – title contains a control character" classname="api/issues.validation.api.spec.ts" time="0.337">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – description over 10,000 chars" classname="api/issues.validation.api.spec.ts" time="0.4">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – unknown type" classname="api/issues.validation.api.spec.ts" time="0.391">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – lower-case enum" classname="api/issues.validation.api.spec.ts" time="0.316">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – invalid severity" classname="api/issues.validation.api.spec.ts" time="0.377">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – projectId not a UUID" classname="api/issues.validation.api.spec.ts" time="0.369">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – status cannot be set on create" classname="api/issues.validation.api.spec.ts" time="0.402">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – unknown field (mass assignment)" classname="api/issues.validation.api.spec.ts" time="0.341">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – references that do not exist or belong to another project" classname="api/issues.validation.api.spec.ts" time="0.355">
+</testcase>
+<testcase name="POST /issues – payload validation › 400 – malformed JSON body" classname="api/issues.validation.api.spec.ts" time="0.209">
+</testcase>
+<testcase name="POST /issues – payload validation › 413 – body larger than 64 KB" classname="api/issues.validation.api.spec.ts" time="0.352">
+</testcase>
+<testcase name="POST /issues – payload validation › boundaries that must be accepted › 201 – title of exactly 3 characters" classname="api/issues.validation.api.spec.ts" time="0.368">
+</testcase>
+<testcase name="POST /issues – payload validation › boundaries that must be accepted › 201 – title of exactly 200 characters" classname="api/issues.validation.api.spec.ts" time="0.34">
+</testcase>
+<testcase name="POST /issues – payload validation › boundaries that must be accepted › 201 – description of exactly 10,000 characters" classname="api/issues.validation.api.spec.ts" time="0.325">
+</testcase>
+<testcase name="POST /issues – payload validation › boundaries that must be accepted › 201 – multi-line description with tabs" classname="api/issues.validation.api.spec.ts" time="0.386">
+</testcase>
+<testcase name="POST /issues – payload validation › boundaries that must be accepted › 201 – emoji and non-Latin text" classname="api/issues.validation.api.spec.ts" time="0.333">
+</testcase>
+<testcase name="POST /issues – payload validation › boundaries that must be accepted › 201 – HTML / SQL-looking text is stored as plain text" classname="api/issues.validation.api.spec.ts" time="0.335">
+</testcase>
+<testcase name="POST /issues – payload validation › boundaries that must be accepted › 201 – title is trimmed" classname="api/issues.validation.api.spec.ts" time="0.314">
+</testcase>
+</testsuite>
+<testsuite name="api/rbac.api.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="api" tests="8" failures="0" skipped="0" time="4.294" errors="0">
+<testcase name="Role-based access control › DONE → VERIFIED as admin → 200" classname="api/rbac.api.spec.ts" time="0.513">
+</testcase>
+<testcase name="Role-based access control › DONE → VERIFIED as qa → 200" classname="api/rbac.api.spec.ts" time="0.5">
+</testcase>
+<testcase name="Role-based access control › DONE → VERIFIED as developer → 403" classname="api/rbac.api.spec.ts" time="0.51">
+</testcase>
+<testcase name="Role-based access control › DONE → VERIFIED as viewer → 403" classname="api/rbac.api.spec.ts" time="0.513">
+</testcase>
+<testcase name="Role-based access control › a developer cannot reopen a VERIFIED issue, QA can" classname="api/rbac.api.spec.ts" time="0.672">
+</testcase>
+<testcase name="Role-based access control › viewers are read-only" classname="api/rbac.api.spec.ts" time="0.529">
+</testcase>
+<testcase name="Role-based access control › only admins manage projects" classname="api/rbac.api.spec.ts" time="0.596">
+</testcase>
+<testcase name="Role-based access control › only the reporter or an admin can delete an issue" classname="api/rbac.api.spec.ts" time="0.461">
+</testcase>
+</testsuite>
+<testsuite name="api/workflow.api.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="api" tests="9" failures="0" skipped="0" time="3.531" errors="0">
+<testcase name="Issue workflow (state machine) › happy path BACKLOG → IN_PROGRESS → QA → DONE → VERIFIED is recorded in the history" classname="api/workflow.api.spec.ts" time="0.585">
+</testcase>
+<testcase name="Issue workflow (state machine) › 409 – cannot jump from BACKLOG to QA" classname="api/workflow.api.spec.ts" time="0.5">
+</testcase>
+<testcase name="Issue workflow (state machine) › 409 – cannot jump from BACKLOG to DONE" classname="api/workflow.api.spec.ts" time="0.402">
+</testcase>
+<testcase name="Issue workflow (state machine) › 409 – cannot jump from BACKLOG to VERIFIED" classname="api/workflow.api.spec.ts" time="0.348">
+</testcase>
+<testcase name="Issue workflow (state machine) › 409 – cannot jump from IN_PROGRESS to DONE" classname="api/workflow.api.spec.ts" time="0.337">
+</testcase>
+<testcase name="Issue workflow (state machine) › 409 – cannot jump from QA to BACKLOG" classname="api/workflow.api.spec.ts" time="0.352">
+</testcase>
+<testcase name="Issue workflow (state machine) › 409 – cannot jump from DONE to BACKLOG" classname="api/workflow.api.spec.ts" time="0.353">
+</testcase>
+<testcase name="Issue workflow (state machine) › 400 – unknown target status" classname="api/workflow.api.spec.ts" time="0.299">
+</testcase>
+<testcase name="Issue workflow (state machine) › drop index controls the card order inside a column" classname="api/workflow.api.spec.ts" time="0.355">
+</testcase>
+</testsuite>
+<testsuite name="e2e/ai-triage.e2e.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="e2e-chromium" tests="2" failures="0" skipped="0" time="4.135" errors="0">
+<testcase name="AI triage in the UI › AI suggests severity and test steps while filing a bug, and the suggestion can be applied" classname="e2e/ai-triage.e2e.spec.ts" time="2.548">
+</testcase>
+<testcase name="AI triage in the UI › running AI triage on an issue generates test cases" classname="e2e/ai-triage.e2e.spec.ts" time="1.587">
+</testcase>
+</testsuite>
+<testsuite name="e2e/auth.e2e.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="e2e-chromium" tests="6" failures="0" skipped="0" time="9.014" errors="0">
+<testcase name="Login › admin can sign in and lands on the dashboard" classname="e2e/auth.e2e.spec.ts" time="1.418">
+</testcase>
+<testcase name="Login › qa can sign in and lands on the dashboard" classname="e2e/auth.e2e.spec.ts" time="1.381">
+</testcase>
+<testcase name="Login › developer can sign in and lands on the dashboard" classname="e2e/auth.e2e.spec.ts" time="1.538">
+</testcase>
+<testcase name="Login › wrong password shows an error and stays on the login page" classname="e2e/auth.e2e.spec.ts" time="1.22">
+</testcase>
+<testcase name="Login › a protected page redirects to login and returns there after signing in" classname="e2e/auth.e2e.spec.ts" time="1.808">
+</testcase>
+<testcase name="Login › signing out ends the session" classname="e2e/auth.e2e.spec.ts" time="1.649">
+</testcase>
+</testsuite>
+<testsuite name="e2e/issue-lifecycle.e2e.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="e2e-chromium" tests="3" failures="0" skipped="0" time="7.911" errors="0">
+<testcase name="Issue lifecycle on the Kanban board › create an issue, drag it across the board, then QA verifies it" classname="e2e/issue-lifecycle.e2e.spec.ts" time="4.619">
+</testcase>
+<testcase name="Issue lifecycle on the Kanban board › cards can also be moved with the keyboard-accessible &quot;Move to&quot; menu" classname="e2e/issue-lifecycle.e2e.spec.ts" time="1.403">
+</testcase>
+<testcase name="Issue lifecycle on the Kanban board › an invalid jump (Backlog → Done) is rejected and the card snaps back" classname="e2e/issue-lifecycle.e2e.spec.ts" time="1.889">
+</testcase>
+</testsuite>
+<testsuite name="e2e/rbac.e2e.spec.ts" timestamp="2026-10-09T09:10:34.888Z" hostname="e2e-chromium" tests="2" failures="0" skipped="0" time="3.275" errors="0">
+<testcase name="Role-based access in the UI › as a developer › dragging a Done issue to Verified is refused by the API and rolled back in the UI" classname="e2e/rbac.e2e.spec.ts" time="2.08">
+</testcase>
+<testcase name="Role-based access in the UI › as a viewer › the board is read-only: no New issue button, no drag, no move menu" classname="e2e/rbac.e2e.spec.ts" time="1.195">
+</testcase>
+</testsuite>
+</testsuites>

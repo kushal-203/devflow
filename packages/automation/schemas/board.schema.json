@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devflow.dev/schemas/board.json",
+  "title": "SprintBoard",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["project", "sprint", "columns", "totalIssues"],
+  "properties": {
+    "project": { "type": "object", "required": ["id", "key", "name"], "properties": { "id": { "type": "string", "format": "uuid" }, "key": { "type": "string" }, "name": { "type": "string" } } },
+    "sprint": { "type": ["object", "null"] },
+    "totalIssues": { "type": "integer", "minimum": 0 },
+    "columns": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "title", "issues"],
+        "properties": {
+          "status": { "enum": ["BACKLOG", "IN_PROGRESS", "QA", "DONE", "VERIFIED"] },
+          "title": { "type": "string" },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "key", "title", "type", "status", "severity", "priority", "position", "assignee"],
+              "properties": {
+                "id": { "type": "string", "format": "uuid" },
+                "key": { "type": "string" },
+                "title": { "type": "string" },
+                "type": { "enum": ["BUG", "STORY", "TASK"] },
+                "status": { "enum": ["BACKLOG", "IN_PROGRESS", "QA", "DONE", "VERIFIED"] },
+                "severity": { "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", null] },
+                "priority": { "enum": ["URGENT", "HIGH", "MEDIUM", "LOW"] },
+                "position": { "type": "number" },
+                "assignee": { "anyOf": [{ "type": "null" }, { "type": "object", "required": ["id", "name"], "additionalProperties": false, "properties": { "id": { "type": "string" }, "name": { "type": "string" } } }] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "devflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DevFlow \u2013 AI-powered bug tracking & test management platform (Next.js, Express, PostgreSQL/Prisma, Playwright, k6)",
+  "workspaces": [
+    "apps/backend",
+    "apps/frontend",
+    "packages/automation"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "setup": "npm run db:setup && npm run build",
+    "db:start": "node scripts/embedded-db.mjs",
+    "db:generate": "npm run prisma:generate -w apps/backend",
+    "db:migrate": "npm run prisma:migrate -w apps/backend",
+    "db:seed": "npm run seed -w apps/backend",
+    "db:setup": "npm run db:generate && npm run db:migrate && npm run db:seed",
+    "dev": "concurrently -n api,web -c blue,magenta \"npm run dev -w apps/backend\" \"npm run dev -w apps/frontend\"",
+    "build": "npm run build -w apps/backend && npm run build -w apps/frontend",
+    "start": "concurrently -n api,web -c blue,magenta \"npm run start -w apps/backend\" \"npm run start -w apps/frontend\"",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test -w packages/automation",
+    "test:api": "npm run test:api -w packages/automation",
+    "test:e2e": "npm run test:e2e -w packages/automation",
+    "test:report": "npm run report -w packages/automation",
+    "perf:smoke": "k6 run -e PROFILE=smoke --summary-export packages/performance/results/summary.json packages/performance/scripts/sprint-board.js",
+    "perf:load": "k6 run -e PROFILE=load --summary-export packages/performance/results/summary.json packages/performance/scripts/sprint-board.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "embedded-postgres": "17.10.0-beta.17"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.2",
+    "mysql2": "^3.24.5"
+  }
+}
